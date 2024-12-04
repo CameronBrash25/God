@@ -6,23 +6,20 @@ window.onload = () => {
     userInput.focus();
 };
 
-userInput.addEventListener('keydown', function (event) {
+userInput.addEventListener('keydown', async function (event) {
     if (event.key === 'Enter' && userInput.value.trim() !== '') {
         const question = userInput.value.trim();
         appendUserMessage(`<user> : ${question}`);
         userInput.value = '';
 
-        // Simulate the "godly" response with a delay
-        setTimeout(() => {
-            const response = getGodResponse(question);
-            addTypingAnimation(`Kami Sama: `, response);
-        }, 1000);
+        // Fetch the "godly" response from the backend
+        const response = await getGodResponse(question);
+        addTypingAnimation(`Kami Sama: `, response);
 
         // Automatically refocus the input field
         userInput.focus();
     }
 });
-
 // Function to instantly append user message
 function appendUserMessage(message) {
     const newLine = document.createElement('div');
@@ -56,6 +53,24 @@ function addTypingAnimation(prefix, message) {
 }
 
 // Function to generate placeholder responses
-function getGodResponse(question) {
-    return `"${question}" holds infinite possibilities.`; // Example response
+async function getGodResponse(question) {
+    try {
+        const response = await fetch("https://god-hjjh.onrender.com/chat", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ message: question }),
+        });
+
+        if (!response.ok) {
+            throw new Error(`Server error: ${response.status}`);
+        }
+
+        const data = await response.json();
+        return data.reply;
+    } catch (error) {
+        console.error("Error fetching response:", error);
+        return "I'm sorry, but I cannot provide an answer at this time.";
+    }
 }
