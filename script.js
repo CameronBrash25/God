@@ -82,8 +82,8 @@ async function getGodResponse(question) {
     }
 }
 
-// Function to play click sound
 function playClickSound() {
+    clickSound.volume = 0.2; // Adjust volume (50% of full volume)
     clickSound.currentTime = 0; // Reset sound to start
     clickSound.play();
 }
