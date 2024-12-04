@@ -45,5 +45,10 @@ app.post("/chat", async (req, res) => {
     }
 });
 
-const PORT = 5000;
-app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+// Use Render's dynamic port or default to 5000 for local testing
+const PORT = process.env.PORT || 5000;
+
+// Listen on all network interfaces to allow Render to bind the public URL
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server running on http://0.0.0.0:${PORT}`);
+});
