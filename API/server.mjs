@@ -7,13 +7,7 @@ import fetch from "node-fetch";
 const app = express();
 app.use(bodyParser.json());
 
-app.use(
-  cors({
-    origin: "https://www.kamisama.online", // Your frontend URL
-    methods: ["POST"], // Limit to POST requests
-    allowedHeaders: ["Content-Type"], // Ensure correct headers are allowed
-  })
-);
+app.use(cors());
 
 // OpenAI API Key
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
