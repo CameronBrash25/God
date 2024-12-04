@@ -55,7 +55,7 @@ function addTypingAnimation(prefix, message) {
         textArea.scrollTop = textArea.scrollHeight; // Keep chat scrolled to bottom
     }
 
-    const typingInterval = setInterval(typeChar, 130); // Slower speed (100ms per character)
+    const typingInterval = setInterval(typeChar, 105); // Slower speed (100ms per character)
 }
 
 
