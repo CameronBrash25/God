@@ -48,6 +48,13 @@ app.post("/chat", async (req, res) => {
         res.json({ reply });
     } catch (error) {
         console.error("Error with OpenAI API:", error);
+
+        // Check if the error response has more details
+        if (error.response) {
+            console.error("Error status:", error.response.status);
+            console.error("Error data:", error.response.data);
+        }
+
         res.status(500).json({ error: "Something went wrong with the API" });
     }
 });
