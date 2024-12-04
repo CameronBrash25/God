@@ -55,8 +55,9 @@ function addTypingAnimation(prefix, message) {
         textArea.scrollTop = textArea.scrollHeight; // Keep chat scrolled to bottom
     }
 
-    const typingInterval = setInterval(typeChar, 50); // Adjust speed (50ms per character)
+    const typingInterval = setInterval(typeChar, 100); // Slower speed (100ms per character)
 }
+
 
 // Function to generate placeholder responses
 async function getGodResponse(question) {
