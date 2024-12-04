@@ -8,9 +8,13 @@ const app = express();
 app.use(bodyParser.json());
 
 // Enable CORS for your frontend
-app.use(cors({
-    origin: "https://www.kamisama.online/", // Replace with your Vercel domain
-}));
+app.use(
+  cors({
+    origin: "https://www.kamisama.online", // Your frontend URL
+    methods: ["POST"], // Limit to POST requests
+    allowedHeaders: ["Content-Type"], // Ensure correct headers are allowed
+  })
+);
 
 // OpenAI API Key
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
