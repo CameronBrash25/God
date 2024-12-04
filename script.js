@@ -10,10 +10,25 @@ window.onload = () => {
     userInput.focus();
 };
 
+// Play typing sound when a key is pressed
+userInput.addEventListener('keydown', () => {
+    if (typingSound.paused) {
+        typingSound.loop = true;
+        typingSound.play();
+    }
+});
+
+// Stop typing sound when the user stops pressing keys
+userInput.addEventListener('keyup', () => {
+    if (userInput.value.trim() === '') {
+        typingSound.pause();
+        typingSound.currentTime = 0;
+    }
+});
+
 userInput.addEventListener('keydown', async function (event) {
     if (event.key === 'Enter' && userInput.value.trim() !== '') {
         const question = userInput.value.trim();
-        playClickSound(); // Play the click sound when the user presses Enter
         appendUserMessage(`<user> : ${question}`);
         userInput.value = '';
 
@@ -42,21 +57,17 @@ function addTypingAnimation(prefix, message) {
 
     let i = 0; // Index for the character being typed
 
-    // Play typing sound on loop while typing
-    typingSound.loop = true;
-    typingSound.play();
-
     function typeChar() {
         if (i < prefix.length) {
             newLine.textContent += prefix[i];
             i++;
+            playClickSound(); // Play click sound for each letter
         } else if (i < prefix.length + message.length) {
             newLine.textContent += message[i - prefix.length];
             i++;
+            playClickSound(); // Play click sound for each letter
         } else {
             clearInterval(typingInterval); // Stop typing when the message is complete
-            typingSound.pause(); // Stop the typing sound
-            typingSound.currentTime = 0; // Reset sound for next use
         }
         textArea.scrollTop = textArea.scrollHeight; // Keep chat scrolled to bottom
     }
