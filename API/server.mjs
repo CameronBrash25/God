@@ -7,14 +7,8 @@ import fetch from "node-fetch";
 const app = express();
 app.use(bodyParser.json());
 
-// Enable CORS for your frontend
-app.use(
-  cors({
-    origin: "https://www.kamisama.online", // Your frontend URL
-    methods: ["POST"], // Limit to POST requests
-    allowedHeaders: ["Content-Type"], // Ensure correct headers are allowed
-  })
-);
+const cors = require('cors');
+app.use(cors({ origin: 'https://your-vercel-domain.vercel.app' }));
 
 // OpenAI API Key
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
