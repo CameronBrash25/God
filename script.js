@@ -2,7 +2,6 @@ const textArea = document.getElementById('text-area');
 const userInput = document.getElementById('user-input');
 
 // Sound files
-const typingSound = new Audio('./sounds/typing.mp3');
 const clickSound = new Audio('./sounds/click.mp3');
 
 // Automatically focus the input field on page load
