@@ -9,22 +9,6 @@ window.onload = () => {
     userInput.focus();
 };
 
-// Play typing sound when a key is pressed
-userInput.addEventListener('keydown', () => {
-    if (typingSound.paused) {
-        typingSound.loop = true;
-        typingSound.play();
-    }
-});
-
-// Stop typing sound when the user stops pressing keys
-userInput.addEventListener('keyup', () => {
-    if (userInput.value.trim() === '') {
-        typingSound.pause();
-        typingSound.currentTime = 0;
-    }
-});
-
 userInput.addEventListener('keydown', async function (event) {
     if (event.key === 'Enter' && userInput.value.trim() !== '') {
         const question = userInput.value.trim();
