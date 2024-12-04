@@ -13,6 +13,10 @@ body {
     /* Prevent unwanted scrollbars */
 }
 
+footer {
+    justify content: center; 
+}
+
 #screen {
     width: 100%;
     max-width: 800px;
