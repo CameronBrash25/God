@@ -55,7 +55,7 @@ function addTypingAnimation(prefix, message) {
         textArea.scrollTop = textArea.scrollHeight; // Keep chat scrolled to bottom
     }
 
-    const typingInterval = setInterval(typeChar, 105); // Slower speed (100ms per character)
+    const typingInterval = setInterval(typeChar, 100); // Slower speed (100ms per character)
 }
 
 
@@ -83,7 +83,7 @@ async function getGodResponse(question) {
 }
 
 function playClickSound() {
-    clickSound.volume = 0.2; // Adjust volume (50% of full volume)
+    clickSound.volume = 0.1; // Adjust volume (50% of full volume)
     clickSound.currentTime = 0; // Reset sound to start
     clickSound.play();
 }
