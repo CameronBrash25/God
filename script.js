@@ -1,6 +1,10 @@
 const textArea = document.getElementById('text-area');
 const userInput = document.getElementById('user-input');
 
+// Sound files
+const typingSound = new Audio('./sounds/typing.mp3');
+const clickSound = new Audio('./sounds/click.mp3');
+
 // Automatically focus the input field on page load
 window.onload = () => {
     userInput.focus();
@@ -9,6 +13,7 @@ window.onload = () => {
 userInput.addEventListener('keydown', async function (event) {
     if (event.key === 'Enter' && userInput.value.trim() !== '') {
         const question = userInput.value.trim();
+        playClickSound(); // Play the click sound when the user presses Enter
         appendUserMessage(`<user> : ${question}`);
         userInput.value = '';
 
@@ -20,6 +25,7 @@ userInput.addEventListener('keydown', async function (event) {
         userInput.focus();
     }
 });
+
 // Function to instantly append user message
 function appendUserMessage(message) {
     const newLine = document.createElement('div');
@@ -36,6 +42,10 @@ function addTypingAnimation(prefix, message) {
 
     let i = 0; // Index for the character being typed
 
+    // Play typing sound on loop while typing
+    typingSound.loop = true;
+    typingSound.play();
+
     function typeChar() {
         if (i < prefix.length) {
             newLine.textContent += prefix[i];
@@ -45,6 +55,8 @@ function addTypingAnimation(prefix, message) {
             i++;
         } else {
             clearInterval(typingInterval); // Stop typing when the message is complete
+            typingSound.pause(); // Stop the typing sound
+            typingSound.currentTime = 0; // Reset sound for next use
         }
         textArea.scrollTop = textArea.scrollHeight; // Keep chat scrolled to bottom
     }
@@ -73,4 +85,10 @@ async function getGodResponse(question) {
         console.error("Error fetching response:", error);
         return "I'm sorry, but I cannot provide an answer at this time.";
     }
+}
+
+// Function to play click sound
+function playClickSound() {
+    clickSound.currentTime = 0; // Reset sound to start
+    clickSound.play();
 }
