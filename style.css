@@ -1,35 +1,27 @@
 /* Full-page styling */
 body {
     background-color: black;
-    /* Set the entire page background to black */
     color: #00ff00;
-    /* Ensure default text color is green */
     margin: 0;
     height: 100vh;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     overflow: hidden;
     /* Prevent unwanted scrollbars */
 }
 
-footer {
-    justify content: center; 
-}
-
 #screen {
     width: 100%;
     max-width: 800px;
     max-height: 80%;
-    /* Limit height for better readability */
     border: 2px solid #20c20e;
     padding: 10px;
     display: flex;
     flex-direction: column;
     overflow-y: auto;
-    /* Scrollable when messages exceed screen height */
     background-color: black;
-    /* Black background for the screen box */
     font-size: 1rem;
 }
 
@@ -37,12 +29,8 @@ footer {
     white-space: pre-line;
     overflow-y: auto;
     flex-grow: 1;
-    /* Expand text area to fill available space */
     text-shadow: 0 0 2px #20c20e, 0 0 5px #20c20e;
-
-    /* Glow effect */
     color: #20c20e;
-    /* Ensure text inside the box is green */
 }
 
 #input-area {
@@ -50,7 +38,6 @@ footer {
     align-items: center;
     margin-top: 10px;
     text-shadow: 0 0 5px #20c20e, 0 0 15px #20c20e;
-    /* Glow effect */
 }
 
 #user-label {
@@ -68,9 +55,16 @@ footer {
     font-size: 1rem;
     outline: none;
     flex-grow: 1;
-    /* Input field takes available space */
     caret-color: #20c20e;
-    /* Green caret */
     text-shadow: 0 0 5px #20c20e, 0 0 10px #20c20e;
-    /* Glow effect */
+}
+
+footer {
+    position: relative;
+    margin-top: 20px;
+    color: #20c20e;
+    text-shadow: 0 0 5px #20c20e, 0 0 10px #20c20e;
+    font-family: 'Courier New', Courier, monospace;
+    text-align: center;
+    width: 100%;
 }
