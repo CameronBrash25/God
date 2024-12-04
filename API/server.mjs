@@ -1,4 +1,3 @@
-// Existing imports and setup
 import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
@@ -16,12 +15,6 @@ app.use(cors({
 // OpenAI API Key
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
-// Define a GET route for the root URL
-app.get("/", (req, res) => {
-    res.send("Welcome to Kami Sama's API");
-});
-
-// Existing POST route for /chat
 app.post("/chat", async (req, res) => {
     const userInput = req.body.message;
 
@@ -43,19 +36,18 @@ app.post("/chat", async (req, res) => {
             }),
         });
 
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error("OpenAI API Error:", response.status, errorData);
+            return res.status(response.status).json({ error: "Error from OpenAI API" });
+        }
+
         const data = await response.json();
         const reply = data.choices[0].message.content.trim();
         res.json({ reply });
     } catch (error) {
-        console.error("Error with OpenAI API:", error);
-
-        // Check if the error response has more details
-        if (error.response) {
-            console.error("Error status:", error.response.status);
-            console.error("Error data:", error.response.data);
-        }
-
-        res.status(500).json({ error: "Something went wrong with the API" });
+        console.error("Request failed:", error);
+        res.status(500).json({ error: "Internal server error" });
     }
 });
 
