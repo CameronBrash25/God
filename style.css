@@ -105,6 +105,8 @@ footer {
 #kami-indicator {
     width: 12px;
     height: 12px;
+    top: 50px;
+    right: 300px;
     background-color: #20c20e;
     border-radius: 50%;
     box-shadow: 0 0 8px #20c20e;
