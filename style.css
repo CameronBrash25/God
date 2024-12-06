@@ -238,6 +238,7 @@ body:after {
 
 /* Additional Styling for Input Area */
 #input-area {
+    background: black;
     display: flex;
     align-items: center;
     margin-top: 10px;
