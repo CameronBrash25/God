@@ -90,11 +90,8 @@ footer {
     width: 100%;
 }
 
-/* Kami Connection Indicator */
 #kami-connection {
-    position: relative;
-    left: 350px;
-    top: 30px;
+    position: static;
     display: flex;
     align-items: center;
     gap: 10px;
