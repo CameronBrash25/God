@@ -32,11 +32,11 @@ window.onload = async () => {
             setConnectionState("Online", "on");
         }
         if (messages[i] == "Awaiting Connection...") {
-            await new Promise((resolve) => setTimeout(resolve, 5000)); // Delay for each message
-        } else if (messages[i] == "Receiving Connection...") {
-            await new Promise((resolve) => setTimeout(resolve, 5000)); // Delay for each message
-        } else if (messages[i] == "Divine Connection Established...") {
             await new Promise((resolve) => setTimeout(resolve, 2000)); // Delay for each message
+        } else if (messages[i] == "Receiving Connection...") {
+            await new Promise((resolve) => setTimeout(resolve, 2000)); // Delay for each message
+        } else if (messages[i] == "Divine Connection Established...") {
+            await new Promise((resolve) => setTimeout(resolve, 1000)); // Delay for each message
         } else if (messages[i] == "Kami Sama Online:") {
             await new Promise((resolve) => setTimeout(resolve, 500)); // Delay for each message
         }
