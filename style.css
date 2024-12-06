@@ -8,10 +8,8 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
-    /* Prevent unwanted scrollbars */
-    animation: turnOn 1s ease-in-out;
-    /* Screen Turn-On Effect */
+    overflow: hidden; /* Prevent unwanted scrollbars */
+    animation: turnOn 1s ease-in-out; /* Screen Turn-On Effect */
 }
 
 /* CRT Screen Effect */
@@ -23,10 +21,12 @@ body:after {
     width: 100%;
     height: 100%;
     pointer-events: none;
-    background: repeating-linear-gradient(rgba(0, 0, 0, 0.1),
-            rgba(0, 0, 0, 0.1) 1px,
-            transparent 1px,
-            transparent 2px);
+    background: repeating-linear-gradient(
+        rgba(0, 0, 0, 0.1),
+        rgba(0, 0, 0, 0.1) 1px,
+        transparent 1px,
+        transparent 2px
+    );
     mix-blend-mode: multiply;
     z-index: 9;
 }
@@ -35,16 +35,17 @@ body:after {
     width: 100%;
     max-width: 800px;
     border: 2px solid #20c20e;
-    padding: 0; /* Ensures no padding */
-    margin: 0; /* Ensures no margin */
+    padding: 0;
+    margin: 0;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; /* Ensure no extra space */
-    align-items: flex-start; /* Align content tightly */
+    justify-content: flex-start;
+    align-items: flex-start;
     overflow-y: auto;
     background-color: black;
     font-size: 1rem;
 }
+
 #text-area {
     white-space: pre-line;
     flex-grow: 1;
@@ -52,124 +53,192 @@ body:after {
     color: #20c20e;
 }
 
+/* Easter Egg Animations */
+
+/* 1. Dream Effect */
+.dream-effect {
+    text-shadow: 0 0 10px #20c20e, 0 0 20px #00ffcc;
+    animation: dream-pulse 2s infinite;
+}
+
+@keyframes dream-pulse {
+    0% {
+        color: #20c20e;
+    }
+    50% {
+        color: #00ffcc;
+    }
+    100% {
+        color: #20c20e;
+    }
+}
+
+/* 2. Galaxy Effect */
+.galaxy-effect {
+    text-shadow: 0 0 10px #ffd700, 0 0 20px #ff4500;
+    background: radial-gradient(circle, #000, #002b36, #073642);
+    animation: galaxy-flicker 1.5s infinite;
+}
+
+@keyframes galaxy-flicker {
+    0%, 100% {
+        filter: brightness(1);
+    }
+    50% {
+        filter: brightness(1.5);
+    }
+}
+
+/* 3. Shake Effect */
+.shake-effect {
+    animation: shake 0.5s ease-in-out infinite;
+}
+
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-5px);
+    }
+    50% {
+        transform: translateX(5px);
+    }
+    75% {
+        transform: translateX(-5px);
+    }
+}
+
+/* 4. Music Effect */
+.music-effect {
+    position: relative;
+    text-shadow: 0 0 10px #20c20e, 0 0 15px #00ff00;
+}
+
+.music-effect::after {
+    content: ' ♪ ♫ ♪ ';
+    position: absolute;
+    top: -10px;
+    left: 5px;
+    animation: music-float 3s linear infinite;
+}
+
+@keyframes music-float {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+}
+
+/* 5. Fade Effect */
+.fade-effect {
+    animation: fade-out-in 2s forwards;
+}
+
+@keyframes fade-out-in {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* 6. Cookie Effect */
+.cookie-effect {
+    background-image: url('./images/cookie.png'); /* Add a cookie image */
+    background-repeat: no-repeat;
+    background-position: center;
+    animation: cookie-glow 1.5s infinite;
+}
+
+@keyframes cookie-glow {
+    0%, 100% {
+        filter: brightness(1);
+    }
+    50% {
+        filter: brightness(1.5);
+    }
+}
+
+/* 7. Joke Effect */
+.joke-effect {
+    animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* 8. Light Effect */
+.light-effect {
+    animation: light-blink 2s infinite;
+}
+
+@keyframes light-blink {
+    0%, 50% {
+        box-shadow: 0 0 8px #20c20e, 0 0 15px #20c20e;
+    }
+    100% {
+        box-shadow: 0 0 20px #00ff00, 0 0 30px #00ff00;
+    }
+}
+
+/* 9. Love Effect */
+.love-effect {
+    position: relative;
+}
+
+.love-effect::before {
+    content: '❤️ ❤️ ❤️';
+    position: absolute;
+    top: -10px;
+    left: 5px;
+    animation: love-float 3s linear infinite;
+}
+
+@keyframes love-float {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+}
+
+/* 10. Wisdom Effect */
+.wisdom-effect {
+    text-shadow: 0 0 10px #20c20e, 0 0 20px #0000ff;
+    animation: wisdom-glow 2s infinite;
+}
+
+@keyframes wisdom-glow {
+    0%, 100% {
+        text-shadow: 0 0 10px #20c20e, 0 0 20px #0000ff;
+    }
+    50% {
+        text-shadow: 0 0 15px #00ffcc, 0 0 30px #00ffcc;
+    }
+}
+
+/* Additional Styling for Input Area */
 #input-area {
     display: flex;
     align-items: center;
     margin-top: 10px;
     text-shadow: 0 0 5px #20c20e, 0 0 15px #20c20e;
-}
-
-#user-label {
-    color: #20c20e;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 1rem;
-    margin-right: 5px;
-}
-
-#user-input {
-    border: none;
-    background-color: black;
-    color: #20c20e;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 1rem;
-    outline: none;
-    flex-grow: 1;
-    caret-color: #20c20e;
-    text-shadow: 0 0 5px #20c20e, 0 0 10px #20c20e;
-}
-
-footer {
-    position: relative;
-    margin-top: 20px;
-    color: #20c20e;
-    text-shadow: 0 0 5px #20c20e, 0 0 10px #20c20e;
-    font-family: 'Courier New', Courier, monospace;
-    text-align: center;
-    width: 100%;
-}
-
-#kami-connection {
-    position: static;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-#connection-text {
-    color: #20c20e;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 1rem;
-    text-shadow: 0 0 2px #20c20e, 0 0 5px #20c20e;
-}
-
-#kami-indicator {
-    width: 12px;
-    height: 12px;
-    top: 50px;
-    right: 300px;
-    background-color: #20c20e;
-    border-radius: 50%;
-    box-shadow: 0 0 8px #20c20e;
-    animation: pulse 2s infinite;
-}
-
-/* Flicker Animation */
-@keyframes flicker {
-    0% {
-        opacity: 1;
-    }
-
-    50% {
-        opacity: 0.5;
-    }
-
-    100% {
-        opacity: 1;
-    }
-}
-
-/* Pulse Animation for Indicator */
-@keyframes pulse {
-    0% {
-        opacity: 0;
-    }
-
-    50% {
-        opacity: 0;
-    }
-
-    0% {
-        opacity: 0;
-    }
-
-    50% {
-        opacity: 0;
-    }
-
-    0% {
-        opacity: 0;
-    }
-}
-
-/* Screen Turn-On Effect */
-@keyframes turnOn {
-    0% {
-        opacity: 0;
-    }
-
-    25% {
-        opacity: 0.5;
-    }
-
-    50% {
-        opacity: 1;
-    }
-
-    75% {
-        opacity: 0.5;
-    }
-
-    100% {
-        opacity: 1;
-    }
 }
