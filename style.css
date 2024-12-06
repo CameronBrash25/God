@@ -253,3 +253,20 @@ body:after {
     caret-color: #20c20e; /* Green caret */
     text-shadow: 0 0 5px #20c20e, 0 0 10px #20c20e; /* Optional glowing effect */
 }
+
+a {
+    color: #20c20e; /* Green text */
+    font-family: 'Courier New', Courier, monospace; /* Retro font */
+    text-decoration: none; /* Remove underline */
+    text-shadow: 0 0 5px #20c20e, 0 0 10px #20c20e; /* Glowing effect */
+    transition: color 0.3s ease, text-shadow 0.3s ease; /* Smooth hover effect */
+}
+
+a:hover {
+    color: #00ff00; /* Brighter green on hover */
+    text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00; /* Intensify glow on hover */
+}
+
+a:visited {
+    color: #20c20e; /* Same color for visited links */
+}
