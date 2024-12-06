@@ -1,6 +1,12 @@
 const textArea = document.getElementById('text-area');
 const userInput = document.getElementById('user-input');
+const processingIndicator = document.getElementById('processing-indicator');
+const marketCapDisplay = document.getElementById('market-cap');
+const packetsSentDisplay = document.getElementById('packets-sent');
+const packetsReceivedDisplay = document.getElementById('packets-received');
 let connectionEstablished = false; // Track connection state
+let packetsSent = 0; // Fake packet count for visualizer
+let packetsReceived = 0;
 
 // Easter Egg Triggers and Responses
 const easterEggs = {
@@ -48,6 +54,7 @@ const easterEggs = {
 
 // Sound files
 const clickSound = new Audio('./sounds/click.mp3');
+const gongSound = new Audio('./sounds/gong.mp3'); // Easter egg sound
 
 // Initialize the website
 window.onload = async () => {
@@ -79,6 +86,9 @@ window.onload = async () => {
 
     // Focus the input field after connection
     userInput.focus();
+
+    // Start the fake network visualizer
+    setInterval(updateNetworkVisualizer, 1000);
 };
 
 // Append boot-up messages dynamically
@@ -105,17 +115,25 @@ userInput.addEventListener('keydown', async function (event) {
         appendUserMessage(`<user> : ${question}`);
         userInput.value = '';
 
+        // Show processing indicator
+        processingIndicator.classList.remove('hidden');
+
         // Check for Easter Egg trigger
         if (easterEggs[question]) {
             const { response, type } = easterEggs[question];
+            playGongSound();
             addTypingAnimation(`Kami Sama: `, response);
             triggerAnimationEffect(type);
+            hideProcessingIndicator();
             return; // Skip backend API call
         }
 
         // Fetch the response from the backend
         const response = await getGodResponse(question);
         addTypingAnimation(`Kami Sama: `, response);
+
+        // Hide processing indicator
+        hideProcessingIndicator();
 
         // Refocus the input field
         userInput.focus();
@@ -200,6 +218,17 @@ function triggerAnimationEffect(type) {
     }, 3000);
 }
 
+// Hide processing indicator
+function hideProcessingIndicator() {
+    processingIndicator.classList.add('hidden');
+}
+
+// Play gong sound for Easter Eggs
+function playGongSound() {
+    gongSound.volume = 0.3;
+    gongSound.play();
+}
+
 // Fetch a placeholder response from the backend
 async function getGodResponse(question) {
     try {
@@ -221,6 +250,14 @@ async function getGodResponse(question) {
         console.error("Error fetching response:", error);
         return "I'm sorry, but I cannot provide an answer at this time.";
     }
+}
+
+// Update network visualizer with fake packet data
+function updateNetworkVisualizer() {
+    packetsSent += Math.floor(Math.random() * 5 + 1); // Random packets sent
+    packetsReceived += Math.floor(Math.random() * 5 + 1); // Random packets received
+    packetsSentDisplay.textContent = packetsSent;
+    packetsReceivedDisplay.textContent = packetsReceived;
 }
 
 // Play typing click sound
