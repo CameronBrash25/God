@@ -1,7 +1,6 @@
 const textArea = document.getElementById('text-area');
 const userInput = document.getElementById('user-input');
-const connectionText = document.getElementById('connection-text');
-const kamiIndicator = document.getElementById('kami-indicator');
+let connectionEstablished = false; // Track connection state
 
 // Sound files
 const clickSound = new Audio('./sounds/click.mp3');
@@ -9,71 +8,40 @@ const clickSound = new Audio('./sounds/click.mp3');
 window.onload = async () => {
     const messages = [
         "Awaiting Connection...",
-        "Receiving Connection...",
+        "Connection Received...",
         "Divine Connection Established...",
         "Kami Sama Online:"
     ];
 
-    // Initial state for connection
-    setConnectionState("Offline", "off");
+    // Disable input initially
+    userInput.disabled = true;
 
     // Play turn-on sound with delay
     playTurnOnSound();
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    // Display boot messages and synchronize the connection state
-    for (let i = 0; i < messages.length; i++) {
-        appendBootMessage(messages[i]);
+    // Display boot messages in sequence
+    for (const message of messages) {
+        appendBootMessage(message);
         playClickSound();
-
-        if (i === 1) {
-            setConnectionState("Receiving", "blinking");
-        } else if (i === 3) {
-            setConnectionState("Online", "on");
-        }
-        if (messages[i] == "Awaiting Connection...") {
-            await new Promise((resolve) => setTimeout(resolve, 2000)); // Delay for each message
-        } else if (messages[i] == "Receiving Connection...") {
-            await new Promise((resolve) => setTimeout(resolve, 2000)); // Delay for each message
-        } else if (messages[i] == "Divine Connection Established...") {
-            await new Promise((resolve) => setTimeout(resolve, 1000)); // Delay for each message
-        } else if (messages[i] == "Kami Sama Online:") {
-            await new Promise((resolve) => setTimeout(resolve, 500)); // Delay for each message
-        }
+        await new Promise((resolve) => setTimeout(resolve, 1500)); // Delay for each message
     }
 
-    // Focus the input field after boot
+    // Show the connection indicator and enable input
+    document.getElementById('kami-connection').style.display = 'flex';
+    userInput.disabled = false; // Enable input
+    connectionEstablished = true; // Update connection state
+
+    // Focus the input field after connection
     userInput.focus();
 };
 
-// Function to append boot-up messages dynamically
+// Append boot-up messages dynamically
 function appendBootMessage(message) {
     const newLine = document.createElement('div');
     newLine.textContent = message;
     textArea.appendChild(newLine);
     textArea.scrollTop = textArea.scrollHeight; // Auto-scroll to bottom
-}
-
-// Function to update connection text and light state
-function setConnectionState(state, indicatorState) {
-    connectionText.textContent = `${state}`;
-    switch (indicatorState) {
-        case "off":
-            kamiIndicator.style.backgroundColor = "black";
-            kamiIndicator.style.boxShadow = "none";
-            kamiIndicator.style.animation = "none";
-            break;
-        case "blinking":
-            kamiIndicator.style.backgroundColor = "#20c20e";
-            kamiIndicator.style.boxShadow = "0 0 8px #20c20e";
-            kamiIndicator.style.animation = "pulse 1s infinite";
-            break;
-        case "on":
-            kamiIndicator.style.backgroundColor = "#20c20e";
-            kamiIndicator.style.boxShadow = "0 0 8px #20c20e, 0 0 15px #20c20e";
-            kamiIndicator.style.animation = "none";
-            break;
-    }
 }
 
 // Play turn-on sound effect
@@ -85,6 +53,8 @@ function playTurnOnSound() {
 
 // Handle user input
 userInput.addEventListener('keydown', async function (event) {
+    if (!connectionEstablished) return; // Block input if not connected
+
     if (event.key === 'Enter' && userInput.value.trim() !== '') {
         const question = userInput.value.trim();
         appendUserMessage(`<user> : ${question}`);
@@ -133,7 +103,7 @@ function addTypingAnimation(prefix, message) {
     const typingInterval = setInterval(typeChar, 50); // Typing speed
 }
 
-// Function to generate placeholder responses
+// Fetch a placeholder response from the backend
 async function getGodResponse(question) {
     try {
         const response = await fetch("https://god-hjjh.onrender.com/chat", {
@@ -155,6 +125,7 @@ async function getGodResponse(question) {
         return "I'm sorry, but I cannot provide an answer at this time.";
     }
 }
+
 // Play typing click sound
 function playClickSound() {
     clickSound.volume = 0.1; // Lower volume for subtlety
