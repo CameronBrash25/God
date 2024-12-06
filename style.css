@@ -48,7 +48,6 @@ body:after {
 }
 #text-area {
     white-space: pre-line;
-    overflow-y: auto;
     flex-grow: 1;
     text-shadow: 0 0 2px #20c20e, 0 0 5px #20c20e;
     color: #20c20e;
