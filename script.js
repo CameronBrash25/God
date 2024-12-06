@@ -153,7 +153,7 @@ function hideProcessingIndicator() {
     if (processingIndicator) {
         processingIndicator.classList.add('hidden');
     } else {
-        console.error("Processing indicator not found.");
+        console.warn("Processing indicator not found.");
     }
 }
 
