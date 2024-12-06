@@ -232,7 +232,7 @@ function playGongSound() {
 // Fetch a placeholder response from the backend
 async function getGodResponse(question) {
     try {
-        const response = await fetch("https://god-hjjh.onrender.com", {
+        const response = await fetch("https://god-hjjh.onrender.com/chat", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
