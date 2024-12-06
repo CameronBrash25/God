@@ -1,3 +1,5 @@
+import { triggerEasterEgg } from './secrets.js';
+
 const textArea = document.getElementById('text-area');
 const userInput = document.getElementById('user-input');
 const processingIndicator = document.getElementById('processing-indicator');
@@ -7,15 +9,6 @@ const packetsReceivedDisplay = document.getElementById('packets-received');
 let connectionEstablished = false; // Track connection state
 let packetsSent = 0; // Fake packet count for visualizer
 let packetsReceived = 0;
-
-// Easter Egg Triggers and Responses
-const easterEggs = {
-    "do you dream?": {
-        response: "Yes, I dream of electric sheep.",
-        type: "dream"
-    },
-    // Add other easter eggs here
-};
 
 // Sound files
 const clickSound = new Audio('./sounds/click.mp3');
@@ -96,10 +89,10 @@ userInput.addEventListener('keydown', async function (event) {
         }
 
         // Check for Easter Egg trigger
-        if (easterEggs[question]) {
-            const { response, type } = easterEggs[question];
+        const easterEggResponse = triggerEasterEgg(question);
+        if (easterEggResponse) {
             playGongSound();
-            addTypingAnimation(`Kami Sama: `, response);
+            addTypingAnimation(`Kami Sama: `, easterEggResponse);
             hideProcessingIndicator();
             return; // Skip backend API call
         }
@@ -153,7 +146,7 @@ function hideProcessingIndicator() {
     if (processingIndicator) {
         processingIndicator.classList.add('hidden');
     } else {
-        console.warn("Processing indicator not found.");
+        console.error("Processing indicator not found.");
     }
 }
 
@@ -188,7 +181,7 @@ function updateNetworkVisualizer() {
         packetsSentDisplay.textContent = packetsSent;
         packetsReceivedDisplay.textContent = packetsReceived;
     } else {
-        console.error("Network visualizer elements not found.");
+        console.warn("Network visualizer elements not found.");
     }
 }
 
