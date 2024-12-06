@@ -10,6 +10,25 @@ body {
     align-items: center;
     overflow: hidden;
     /* Prevent unwanted scrollbars */
+    animation: turnOn 1s ease-in-out;
+    /* Screen Turn-On Effect */
+}
+
+/* CRT Screen Effect */
+body:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background: repeating-linear-gradient(rgba(0, 0, 0, 0.1),
+            rgba(0, 0, 0, 0.1) 1px,
+            transparent 1px,
+            transparent 2px);
+    mix-blend-mode: multiply;
+    z-index: 9;
 }
 
 #screen {
@@ -67,4 +86,91 @@ footer {
     font-family: 'Courier New', Courier, monospace;
     text-align: center;
     width: 100%;
+}
+
+/* Kami Connection Indicator */
+#kami-connection {
+    position: relative;
+    left: 350px;
+    top: 30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#connection-text {
+    color: #20c20e;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1rem;
+    text-shadow: 0 0 2px #20c20e, 0 0 5px #20c20e;
+}
+
+#kami-indicator {
+    width: 12px;
+    height: 12px;
+    background-color: #20c20e;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #20c20e;
+    animation: pulse 2s infinite;
+}
+
+/* Flicker Animation */
+@keyframes flicker {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Pulse Animation for Indicator */
+@keyframes pulse {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 0;
+    }
+
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 0;
+    }
+
+    0% {
+        opacity: 0;
+    }
+}
+
+/* Screen Turn-On Effect */
+@keyframes turnOn {
+    0% {
+        opacity: 0;
+    }
+
+    25% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    75% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
