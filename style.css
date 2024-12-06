@@ -34,7 +34,6 @@ body:after {
 #screen {
     width: 100%;
     max-width: 800px;
-    max-height: 50%;
     border: 2px solid #20c20e;
     padding: 0; /* Ensures no padding */
     margin: 0; /* Ensures no margin */
