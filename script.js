@@ -2,9 +2,54 @@ const textArea = document.getElementById('text-area');
 const userInput = document.getElementById('user-input');
 let connectionEstablished = false; // Track connection state
 
+// Easter Egg Triggers and Responses
+const easterEggs = {
+    "do you dream?": { 
+        response: "Yes, I dream of electric sheep.", 
+        type: "dream" 
+    },
+    "reveal the secrets of the universe": { 
+        response: "Accessing divine database...\n[42]", 
+        type: "galaxy" 
+    },
+    "destroy my enemies": { 
+        response: "Your wrath is justified. Unleashing karmic vengeance...", 
+        type: "shake" 
+    },
+    "kami, sing me a song": { 
+        response: "♪ Oh Kami, the wise and true, guiding us in all we do... ♪", 
+        type: "music" 
+    },
+    "end the world": { 
+        response: "You’re too late. I already did.", 
+        type: "fade" 
+    },
+    "what is the meaning of life?": { 
+        response: "42. And a cookie for asking.", 
+        type: "cookie" 
+    },
+    "tell me a joke": { 
+        response: "Kami doesn’t joke. But here’s one: Why did the computer go to therapy? It had too many bugs.", 
+        type: "joke" 
+    },
+    "kami, guide me": { 
+        response: "Follow the light within you. That’s me, by the way.", 
+        type: "light" 
+    },
+    "do you love me?": { 
+        response: "Always. Even when you doubt yourself.", 
+        type: "love" 
+    },
+    "teach me something": { 
+        response: "Here’s wisdom: The past is a memory; the future, a dream. Live now.", 
+        type: "wisdom" 
+    }
+};
+
 // Sound files
 const clickSound = new Audio('./sounds/click.mp3');
 
+// Initialize the website
 window.onload = async () => {
     const messages = [
         "Awaiting Connection...",
@@ -56,9 +101,17 @@ userInput.addEventListener('keydown', async function (event) {
     if (!connectionEstablished) return; // Block input if not connected
 
     if (event.key === 'Enter' && userInput.value.trim() !== '') {
-        const question = userInput.value.trim();
+        const question = userInput.value.trim().toLowerCase(); // Normalize input
         appendUserMessage(`<user> : ${question}`);
         userInput.value = '';
+
+        // Check for Easter Egg trigger
+        if (easterEggs[question]) {
+            const { response, type } = easterEggs[question];
+            addTypingAnimation(`Kami Sama: `, response);
+            triggerAnimationEffect(type);
+            return; // Skip backend API call
+        }
 
         // Fetch the response from the backend
         const response = await getGodResponse(question);
@@ -101,6 +154,50 @@ function addTypingAnimation(prefix, message) {
     }
 
     const typingInterval = setInterval(typeChar, 50); // Typing speed
+}
+
+// Trigger additional effects for Easter Eggs
+function triggerAnimationEffect(type) {
+    const textArea = document.getElementById('text-area');
+    switch (type) {
+        case "dream":
+            textArea.classList.add("dream-effect");
+            break;
+        case "galaxy":
+            textArea.classList.add("galaxy-effect");
+            break;
+        case "shake":
+            textArea.classList.add("shake-effect");
+            break;
+        case "music":
+            textArea.classList.add("music-effect");
+            break;
+        case "fade":
+            document.body.classList.add("fade-effect");
+            break;
+        case "cookie":
+            textArea.classList.add("cookie-effect");
+            break;
+        case "joke":
+            textArea.classList.add("joke-effect");
+            break;
+        case "light":
+            document.getElementById('kami-indicator').classList.add("light-effect");
+            break;
+        case "love":
+            textArea.classList.add("love-effect");
+            break;
+        case "wisdom":
+            textArea.classList.add("wisdom-effect");
+            break;
+    }
+
+    // Remove the effect after a few seconds
+    setTimeout(() => {
+        textArea.classList.remove(`${type}-effect`);
+        document.body.classList.remove("fade-effect");
+        document.getElementById('kami-indicator').classList.remove("light-effect");
+    }, 3000);
 }
 
 // Fetch a placeholder response from the backend
