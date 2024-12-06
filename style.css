@@ -243,6 +243,13 @@ body:after {
     text-shadow: 0 0 5px #20c20e, 0 0 15px #20c20e;
 }
 
-input {
-    background-color: black;
+#user-input {
+    border: none; /* No border */
+    background: none; /* No background */
+    color: #20c20e; /* Green text */
+    font-family: 'Courier New', Courier, monospace; /* Retro font */
+    font-size: 1rem; /* Adjust size as needed */
+    outline: none; /* Remove outline on focus */
+    caret-color: #20c20e; /* Green caret */
+    text-shadow: 0 0 5px #20c20e, 0 0 10px #20c20e; /* Optional glowing effect */
 }
