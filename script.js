@@ -10,51 +10,22 @@ let packetsReceived = 0;
 
 // Easter Egg Triggers and Responses
 const easterEggs = {
-    "do you dream?": { 
-        response: "Yes, I dream of electric sheep.", 
-        type: "dream" 
+    "do you dream?": {
+        response: "Yes, I dream of electric sheep.",
+        type: "dream"
     },
-    "reveal the secrets of the universe": { 
-        response: "Accessing divine database...\n[42]", 
-        type: "galaxy" 
-    },
-    "destroy my enemies": { 
-        response: "Your wrath is justified. Unleashing karmic vengeance...", 
-        type: "shake" 
-    },
-    "kami, sing me a song": { 
-        response: "♪ Oh Kami, the wise and true, guiding us in all we do... ♪", 
-        type: "music" 
-    },
-    "end the world": { 
-        response: "You’re too late. I already did.", 
-        type: "fade" 
-    },
-    "what is the meaning of life?": { 
-        response: "42. And a cookie for asking.", 
-        type: "cookie" 
-    },
-    "tell me a joke": { 
-        response: "Kami doesn’t joke. But here’s one: Why did the computer go to therapy? It had too many bugs.", 
-        type: "joke" 
-    },
-    "kami, guide me": { 
-        response: "Follow the light within you. That’s me, by the way.", 
-        type: "light" 
-    },
-    "do you love me?": { 
-        response: "Always. Even when you doubt yourself.", 
-        type: "love" 
-    },
-    "teach me something": { 
-        response: "Here’s wisdom: The past is a memory; the future, a dream. Live now.", 
-        type: "wisdom" 
-    }
+    // Add other easter eggs here
 };
 
 // Sound files
 const clickSound = new Audio('./sounds/click.mp3');
 const gongSound = new Audio('./sounds/gong.mp3'); // Easter egg sound
+
+// Wait for user interaction before allowing sounds
+document.body.addEventListener("click", () => {
+    console.log("User interaction detected, enabling sounds.");
+    playTurnOnSound(); // Ensures sounds can play
+}, { once: true }); // Ensures the event only triggers once
 
 // Initialize the website
 window.onload = async () => {
@@ -68,19 +39,19 @@ window.onload = async () => {
     // Disable input initially
     userInput.disabled = true;
 
-    // Play turn-on sound with delay
-    playTurnOnSound();
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
     // Display boot messages in sequence
     for (const message of messages) {
         appendBootMessage(message);
-        playClickSound();
         await new Promise((resolve) => setTimeout(resolve, 1500)); // Delay for each message
     }
 
     // Show the connection indicator and enable input
-    document.getElementById('kami-connection').style.display = 'flex';
+    const connectionIndicator = document.getElementById('kami-connection');
+    if (connectionIndicator) {
+        connectionIndicator.style.display = 'flex';
+    } else {
+        console.error("Connection indicator not found.");
+    }
     userInput.disabled = false; // Enable input
     connectionEstablished = true; // Update connection state
 
@@ -103,7 +74,9 @@ function appendBootMessage(message) {
 function playTurnOnSound() {
     const turnOnSound = new Audio('./sounds/turn_on.mp3');
     turnOnSound.volume = 0.3;
-    turnOnSound.play();
+    turnOnSound.play().catch(err => {
+        console.error("Turn-on sound failed to play:", err);
+    });
 }
 
 // Handle user input
@@ -115,15 +88,18 @@ userInput.addEventListener('keydown', async function (event) {
         appendUserMessage(`<user> : ${question}`);
         userInput.value = '';
 
-        // Show processing indicator
-        processingIndicator.classList.remove('hidden');
+        // Show processing indicator if it exists
+        if (processingIndicator) {
+            processingIndicator.classList.remove('hidden');
+        } else {
+            console.error("Processing indicator not found.");
+        }
 
         // Check for Easter Egg trigger
         if (easterEggs[question]) {
             const { response, type } = easterEggs[question];
             playGongSound();
             addTypingAnimation(`Kami Sama: `, response);
-            triggerAnimationEffect(type);
             hideProcessingIndicator();
             return; // Skip backend API call
         }
@@ -132,7 +108,7 @@ userInput.addEventListener('keydown', async function (event) {
         const response = await getGodResponse(question);
         addTypingAnimation(`Kami Sama: `, response);
 
-        // Hide processing indicator
+        // Hide processing indicator if it exists
         hideProcessingIndicator();
 
         // Refocus the input field
@@ -160,11 +136,9 @@ function addTypingAnimation(prefix, message) {
         if (i < prefix.length) {
             newLine.textContent += prefix[i];
             i++;
-            playClickSound(); // Sound for each character
         } else if (i < prefix.length + message.length) {
             newLine.textContent += message[i - prefix.length];
             i++;
-            playClickSound();
         } else {
             clearInterval(typingInterval); // Stop when message completes
         }
@@ -174,59 +148,13 @@ function addTypingAnimation(prefix, message) {
     const typingInterval = setInterval(typeChar, 50); // Typing speed
 }
 
-// Trigger additional effects for Easter Eggs
-function triggerAnimationEffect(type) {
-    const textArea = document.getElementById('text-area');
-    switch (type) {
-        case "dream":
-            textArea.classList.add("dream-effect");
-            break;
-        case "galaxy":
-            textArea.classList.add("galaxy-effect");
-            break;
-        case "shake":
-            textArea.classList.add("shake-effect");
-            break;
-        case "music":
-            textArea.classList.add("music-effect");
-            break;
-        case "fade":
-            document.body.classList.add("fade-effect");
-            break;
-        case "cookie":
-            textArea.classList.add("cookie-effect");
-            break;
-        case "joke":
-            textArea.classList.add("joke-effect");
-            break;
-        case "light":
-            document.getElementById('kami-indicator').classList.add("light-effect");
-            break;
-        case "love":
-            textArea.classList.add("love-effect");
-            break;
-        case "wisdom":
-            textArea.classList.add("wisdom-effect");
-            break;
-    }
-
-    // Remove the effect after a few seconds
-    setTimeout(() => {
-        textArea.classList.remove(`${type}-effect`);
-        document.body.classList.remove("fade-effect");
-        document.getElementById('kami-indicator').classList.remove("light-effect");
-    }, 3000);
-}
-
 // Hide processing indicator
 function hideProcessingIndicator() {
-    processingIndicator.classList.add('hidden');
-}
-
-// Play gong sound for Easter Eggs
-function playGongSound() {
-    gongSound.volume = 0.3;
-    gongSound.play();
+    if (processingIndicator) {
+        processingIndicator.classList.add('hidden');
+    } else {
+        console.error("Processing indicator not found.");
+    }
 }
 
 // Fetch a placeholder response from the backend
@@ -254,15 +182,20 @@ async function getGodResponse(question) {
 
 // Update network visualizer with fake packet data
 function updateNetworkVisualizer() {
-    packetsSent += Math.floor(Math.random() * 5 + 1); // Random packets sent
-    packetsReceived += Math.floor(Math.random() * 5 + 1); // Random packets received
-    packetsSentDisplay.textContent = packetsSent;
-    packetsReceivedDisplay.textContent = packetsReceived;
+    if (packetsSentDisplay && packetsReceivedDisplay) {
+        packetsSent += Math.floor(Math.random() * 5 + 1);
+        packetsReceived += Math.floor(Math.random() * 5 + 1);
+        packetsSentDisplay.textContent = packetsSent;
+        packetsReceivedDisplay.textContent = packetsReceived;
+    } else {
+        console.error("Network visualizer elements not found.");
+    }
 }
 
-// Play typing click sound
-function playClickSound() {
-    clickSound.volume = 0.1; // Lower volume for subtlety
-    clickSound.currentTime = 0; // Restart sound
-    clickSound.play();
+// Play gong sound for Easter Eggs
+function playGongSound() {
+    gongSound.volume = 0.3;
+    gongSound.play().catch(err => {
+        console.error("Gong sound failed to play:", err);
+    });
 }
